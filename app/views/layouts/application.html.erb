@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>AgaCreateProductTool</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <nav class="teal">
+      <div class="nav-wrapper">
+        <a href="/" class="brand-logo">Homelegance Kiosk</a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+          <% if current_user %>
+            <li><a href="/products/new">New product</a></li>
+            <li><a href="/products">View products</a></li>
+            <li><%= link_to "Logout", session_path(1), :method => :delete %></li>
+          <% end %>
+        </ul>
+      </div>
+    </nav>
+    <div class="container">
+      <p><%= flash[:error] %></p>
+      <p><%= flash[:notice] %></p>
+      <%= yield %>
+    </div>
+  </body>
+</html>

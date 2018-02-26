@@ -1,0 +1,20 @@
+$(function() {
+  $("#product_items").append(
+    '<div class="col s3">' +
+      '<label for="product_items___number_" class="">Number</label>' +
+      '<input type="text" name="product_items[][number]" id="product_items__number">' +
+    '</div>' +
+    '<div class="col s3">' +
+      '<label for="product_items___description_">Description</label>' +
+      '<input type="text" name="product_items[][description]" id="product_items__description">' +
+    '</div>' +
+    '<div class="col s3">' +
+      '<label for="product_items___dimensions_">Dimensions</label>' +
+      '<input type="text" name="product_items[][dimensions]" id="product_items__dimensions">' +
+    '</div>' +
+    '<div class="col s3">' +
+      '<label for="product_items___price_">Price</label>' +
+      '<input type="text" name="product_items[][price]" id="product_items__price">' +
+    '</div>'
+  )
+})

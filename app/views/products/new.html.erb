@@ -1,0 +1,74 @@
+<h2>New Product</h2>
+<%= form_tag('/products', multipart: true) do %>
+  <div class="form-group">
+    <%= label_tag 'name', 'Name' %>
+    <%= text_field_tag 'name', @product.name, required: true, placeholder: 'Name' %>
+  </div>
+  <div class="form-group">
+    <%= label_tag 'number', 'Number' %>
+    <%= text_field_tag 'number', @product.number, required: true, placeholder: 'Number' %>
+  </div>
+  <div class="form-group">
+    <%= label_tag 'description', 'Description' %>
+    <%= text_area_tag 'description', @product.description, required: true, placeholder: 'Description', class: 'materialize-textarea', id: 'description'%>
+  </div>
+  <div class="form-group">
+    <%= label_tag 'image_files[]', 'Images' %>
+    <div class="file-field input-field">
+      <div class="btn">
+        <span>Browse</span>
+        <%= file_field_tag 'image_files[]', type: :file, multiple: true, required: true %>
+      </div>
+      <div class="file-path-wrapper">
+        <input class="file-path validate" type="text">
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="input-field col s12">
+      <select id="category" name="category" required>
+        <option value="" disabled selected>Select a category</option>
+        <option value="dining">dining</option>
+        <option value="bedroom">bedroom</option>
+        <option value="living">living</option>
+        <option value="occasional">occasional</option>
+        <option value="home">home</option>
+        <option value="youth">youth</option>
+      </select>
+      <label>Categories</label>
+    </div>
+  </div>
+  <div class="row" id="product_items">
+    <h5>Product Items</h5>
+      <%= hidden_field_tag 'product_items[]["product_number"]', @product.number %>
+    <div class="col s3">
+      <%= label_tag "product_items[]['number']", 'Number' %>
+      <%= text_field_tag "product_items[][number]", nil, required: true %>
+    </div>
+    <div class="col s3">
+      <%= label_tag "product_items[]['description']", 'Description' %>
+      <%= text_field_tag "product_items[][description]", nil, required: true %>
+    </div>
+    <div class="col s3">
+      <%= label_tag "product_items[]['dimensions']", 'Dimensions' %>
+      <%= text_field_tag "product_items[][dimensions]", nil, required: true %>
+    </div>
+    <div class="col s3">
+      <%= label_tag "product_items[]['price']", 'Price' %>
+      <%= text_field_tag "product_items[][price]", nil, required: true %>
+    </div>
+    <%= link_to new_product_path(), remote: true, class: "btn-floating btn-large waves-effect waves-light tooltipped", 'data-position': "top", 'data-delay': "50", 'data-tooltip': "Add product item" do %>
+      <i class="material-icons">add</i>
+    <% end %>
+  </div>
+  <div class="form-group">
+    <%= submit_tag 'Submit', class: "btn teal right"%>
+  </div>
+<% end %>
+
+<script type="text/javascript">
+  $(function() {
+    $('select').material_select();
+    $('.tooltipped').tooltip({delay: 50});
+  })
+</script>

@@ -1,0 +1,99 @@
+<%= link_to 'prev', edit_product_path(@product.id - 1, dir: 'prev') %>
+<%= link_to 'next', edit_product_path(@product.id + 1, dir: 'next'), class: "right" %>
+
+<div class="row" style="padding-top: 20px;">
+  <div class="col s6">
+    <div class="carousel carousel-slider center" data-indicators="true">
+      <% @product.images.each do |image| %>
+        <a class="carousel-item" href="#one!"><img src="<%= @product.thumbnail(image) %>" class="responsive-img"></a>
+      <% end %>
+    </div>
+  </div>
+  <%= form_tag('/products', :method => :put, multipart: true) do %>
+  <%= hidden_field_tag 'id', @product.id %>
+    <div class="col s6">
+      <div class="form-group">
+        <%= label_tag 'name', 'Name' %>
+        <%= text_field_tag 'name', @product.name, required: true, placeholder: 'Name' %>
+      </div>
+      <div class="form-group">
+        <%= label_tag 'number', 'Number' %>
+        <%= text_field_tag 'number', @product.number, required: true, placeholder: 'Number' %>
+      </div>
+      <div class="form-group">
+        <%= label_tag 'description', 'Description' %>
+        <%= text_area_tag 'description', @product.description, required: true, placeholder: 'Description', class: 'materialize-textarea', id: 'description'%>
+      </div>
+      <div class="form-group" style="position: relative;" id="images">
+        <% if @product.images.any? %>
+          <% @product.images.each do |image| %>
+            <%= label_tag 'images[]', 'Image URL' %>
+            <%= text_field_tag 'images[]', image, placeholder: 'Image URL' %>
+          <% end %>
+          <%= link_to "add images", edit_product_path(@product.id), remote: true, style: 'position:absolute; right: -100px; top: 50%; transform: translate(0, -50%)' %>
+        <% else %>
+          <%= label_tag 'image_files[]', 'Images' %>
+          <div class="file-field input-field">
+            <div class="btn">
+              <span>Browse</span>
+              <%= file_field_tag 'image_files[]', type: :file, multiple: true %>
+            </div>
+            <div class="file-path-wrapper">
+              <input class="file-path validate" type="text">
+            </div>
+          </div>
+        <% end %>
+      </div>
+      <div class="form-group">
+        <div class="input-field col s12">
+          <select id="category" name="category" selected="<%= @product.category %>" required>
+            <option value="" disabled>Select a category</option>
+            <option value="dining">dining</option>
+            <option value="bedroom">bedroom</option>
+            <option value="living">living</option>
+            <option value="occasional">occasional</option>
+            <option value="home">home</option>
+            <option value="youth">youth</option>
+          </select>
+          <label>Categories</label>
+        </div>
+      </div>
+    </div>
+  <div class="col s12">
+    <hr>
+    <h5>Product Items</h5>
+    <% @product_items.each do |pi| %>
+      <%= hidden_field_tag "product_items[][id]", pi['id'] %>
+      <div class="col s3">
+        <%= label_tag "product_items[]['number']", 'Number' %>
+        <%= text_field_tag "product_items[][number]", pi['number'], required: true %>
+      </div>
+      <div class="col s3">
+        <%= label_tag "product_items[]['description']", 'Description' %>
+        <%= text_field_tag "product_items[][description]", pi['description'], required: true %>
+      </div>
+      <div class="col s3">
+        <%= label_tag "product_items[]['dimensions']", 'Dimensions' %>
+        <%= text_field_tag "product_items[][dimensions]", pi['dimensions'] %>
+      </div>
+      <div class="col s3">
+        <%= label_tag "product_items[]['price']", 'Price' %>
+        <%= text_field_tag "product_items[][price]", pi['price'], required: true %>
+      </div>
+    <% end %>
+  </div>
+  <div class="form-group">
+    <%= submit_tag 'Submit', class: "btn teal right"%>
+  </div>
+  <% end %>
+</div>
+
+
+<script type="text/javascript">
+  $(function() {
+    $('#description').trigger('autoresize');
+    $('#textarea1').val('<%= @product.description %>');
+    $('select').material_select();
+    $('.carousel.carousel-slider').carousel({fullWidth: true});
+  })
+</script>
