@@ -86,7 +86,7 @@
     <%= submit_tag 'Submit', class: "btn teal right"%>
   </div>
   <% end %>
-  <%= link_to "Delete", product_path(@product.id, params: {to_id: @to_id}), :method => :delete, :data => {:confirm => 'Are you sure?'}, class: "btn red" %>
+  <%= link_to "Delete", product_path(@product.id, params: {to_id: @to_id, dir: params[:dir]}), :method => :delete, :data => {:confirm => 'Are you sure?'}, class: "btn red" %>
 </div>
 
 
