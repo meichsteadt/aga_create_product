@@ -35,8 +35,10 @@ class ProductsController < ApplicationController
       format.html
     end
     @prod_call = Product.product(params[:id], current_user)
-    @product = @prod_call["product"]
-    @product_items = @prod_call["product_items"]
+    if @prod_call
+      @product = @prod_call["product"]
+      @product_items = @prod_call["product_items"]
+    end
     @last = Product.last_product
     @first = Product.first
     params[:dir] == "prev"? @to_id = params[:id].to_i - 1 : @to_id = params[:id].to_i + 1
@@ -67,7 +69,9 @@ class ProductsController < ApplicationController
   end
 
   def destroy
-
+    @product = Product.new({id: params[:id]})
+    @product.destroy
+    redirect_to edit_product_path(params[:to_id])
   end
 private
   def product_params

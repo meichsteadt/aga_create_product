@@ -26,6 +26,10 @@ class Product
     res = RestClient.put("#{ENV['URL']}/products/#{id}", payload, {key: Base64.encode64(ENV['KEY']), secret: Base64.encode64(ENV['SECRET'])})
   end
 
+  def destroy
+    res = RestClient.delete("#{ENV['URL']}/products/#{self.id}", {key: Base64.encode64(ENV['KEY']), secret: Base64.encode64(ENV['SECRET'])})
+  end
+
   def self.products(page_number)
     JSON.parse(RestClient.get("#{ENV['URL']}/products?page_number=#{page_number}").to_s)
   end
