@@ -1,5 +1,5 @@
 class Product
-  attr_reader(:id, :name, :images, :description, :number, :category, :product_items)
+  attr_reader(:id, :name, :images, :description, :number, :category, :product_items, :sub_categories)
   def initialize(params)
     @name = params[:name]
     @images = params[:images]
@@ -8,6 +8,7 @@ class Product
     @category = params[:category]
     @id = params[:id]
     @product_items = []
+    @sub_categories = params[:sub_categories]
   end
 
   def create
@@ -54,6 +55,10 @@ class Product
 
   def self.first
     JSON.parse(RestClient.get("#{ENV['URL']}/products").to_s)['products'].sort_by {|e| e['id']}.first['id']
+  end
+
+  def self.get_subcategories
+    JSON.parse(RestClient.get("#{ENV['URL']}/sub_categories.json"))
   end
 
   def save_images(images)

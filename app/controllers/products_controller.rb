@@ -14,6 +14,7 @@ class ProductsController < ApplicationController
       format.js
       format.html
     end
+    @sub_categories = get_subcategories
   end
 
   def create
@@ -38,7 +39,9 @@ class ProductsController < ApplicationController
     if @prod_call
       @product = @prod_call["product"]
       @product_items = @prod_call["product_items"]
+      @product_sub_categories = @prod_call["sub_categories"].map{|e| e['id'] }
     end
+    @sub_categories = get_subcategories
     @last = Product.last_product
     @first = Product.first
     params[:dir] == "prev"? @to_id = params[:id].to_i - 1 : @to_id = params[:id].to_i + 1
@@ -75,7 +78,7 @@ class ProductsController < ApplicationController
   end
 private
   def product_params
-    params.permit(:name, :number, :description, :category, :id, :images => [])
+    params.permit(:name, :number, :description, :category, :id, :images => [], :sub_categories => [])
   end
 
   def product_item_params
@@ -108,5 +111,14 @@ private
     if @images
        @images.each {|e| params[:images] << "https://s3-us-west-1.amazonaws.com/homelegance/#{e.original_filename}".gsub(' ', '+')}
     end
+  end
+
+  def get_subcategories
+    sub_categories = Product.get_subcategories
+    temp_arr = []
+    length = (sub_categories.length/4).ceil
+    temp_arr.push(sub_categories[0..length], sub_categories[length + 1..length * 2 + 1], sub_categories[length * 2 + 2..length * 3 + 2], sub_categories[length * 3 + 3..-1])
+    sub_categories = temp_arr
+    sub_categories
   end
 end
