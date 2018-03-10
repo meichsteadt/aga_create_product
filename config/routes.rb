@@ -5,4 +5,6 @@ Rails.application.routes.draw do
   resources :products
   resources :sessions
   put '/products', to: 'products#update'
+  get '/searches/:search', to: 'searches#show'
+  resources :searches
 end

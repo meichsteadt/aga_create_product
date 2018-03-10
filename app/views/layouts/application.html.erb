@@ -16,6 +16,7 @@
           <% if current_user %>
             <li><a href="/products/new">New product</a></li>
             <li><a href="/products">View products</a></li>
+            <li><a href="/searches">Search</a></li>
             <li><%= link_to "Logout", session_path(1), :method => :delete %></li>
           <% end %>
         </ul>
