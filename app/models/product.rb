@@ -49,6 +49,10 @@ class Product
     @id = id
   end
 
+  def images=(images)
+    @images = images
+  end
+
   def self.last_product
     JSON.parse(RestClient.get("#{ENV['URL']}/products").to_s)['products'].sort_by {|e| e['id']}.last['id']
   end

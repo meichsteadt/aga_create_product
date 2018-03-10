@@ -12,15 +12,31 @@
     <%= label_tag 'description', 'Description' %>
     <%= text_area_tag 'description', @product.description, required: true, placeholder: 'Description', class: 'materialize-textarea', id: 'description'%>
   </div>
-  <div class="form-group">
-    <%= label_tag 'image_files[]', 'Images' %>
+  <!-- <div class="form-group">
+    <% label_tag 'image_files[]', 'Images' %>
     <div class="file-field input-field">
       <div class="btn">
         <span>Browse</span>
-        <%= file_field_tag 'image_files[]', type: :file, multiple: true, required: true %>
+        <% file_field_tag 'image_files[]', type: :file, multiple: true, required: true %>
       </div>
       <div class="file-path-wrapper">
         <input class="file-path validate" type="text">
+      </div>
+    </div>
+  </div> -->
+  <div class="form-group">
+    <div class="row">
+      <div class="input-field col s4">
+        <%= label_tag 'images[]', 'Images' %>
+        <%= text_field_tag 'images[]', @product.images, required: true, placeholder: 'Images' %>
+      </div>
+      <div class="input-field col s4">
+        <%= label_tag 'images[]', 'Images' %>
+        <%= text_field_tag 'images[]', @product.images, placeholder: 'Images' %>
+      </div>
+      <div class="input-field col s4">
+        <%= label_tag 'images[]', 'Images' %>
+        <%= text_field_tag 'images[]', @product.images, placeholder: 'Images' %>
       </div>
     </div>
   </div>
@@ -61,15 +77,17 @@
       <i class="material-icons">add</i>
     <% end %>
   </div>
-  <% @sub_categories.each do |subcat| %>
-  <div class="col s3">
-    <% subcat.each do |cat|  %>
+  <div class="row">
+    <% @sub_categories.each do |subcat| %>
+    <div class="col s3">
+      <% subcat.each do |cat|  %>
       <%= check_box_tag("sub_categories[]", cat["id"], nil, :id => "sub_categories_#{cat['id']}") %>
       <%= label_tag("sub_categories_#{cat['id']}", cat["name"]) %>
       <br>
+      <% end %>
+    </div>
     <% end %>
   </div>
-  <% end %>
   <div class="form-group">
     <%= submit_tag 'Submit', class: "btn teal right"%>
   </div>

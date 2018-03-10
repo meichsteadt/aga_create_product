@@ -21,8 +21,9 @@ class ProductsController < ApplicationController
     update_image_params(params)
     @product = Product.new(product_params)
     product_item_params.each {|pi| pi['product_number'] = @product.number; @product.product_items << pi;}
+    @product.images = filter_images(@product.images)
     if @product.create
-      @product.save_images(@images)
+      # @product.save_images(@images)
       redirect_to edit_product_path(@product.id)
     else
       flash[:error] = "There was an error creating this product"
@@ -87,6 +88,12 @@ private
 
   def set_product(params)
     @product = Product.new(name: params[:name], number: params[:number], description: params[:description], images: params[:images], id: params[:id], category: params[:category])
+  end
+
+  def filter_images(images)
+    arr = []
+    images.each {|e| if e != ""; arr << e; end }
+    arr
   end
 
   def next_page(page_number, pages)
