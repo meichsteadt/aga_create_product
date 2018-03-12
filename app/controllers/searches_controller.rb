@@ -24,9 +24,14 @@ class SearchesController < ApplicationController
       end
     end
     @product_items = []
+    @price_book = {}
+    CSV.read("2018price_book.csv", headers: true).each do |price_book|
+      @price_book[price_book["Item#"]] = price_book["Price"].delete("$ ")
+    end
     CSV.read("#{@category}_product_items.csv", headers: true).each do |row|
       if row["product_number"] == @number
-        @product_item = ProductItem.new(number: row["number"], description: row["description"], dimensions: row["dimensions"])
+        @price_book[@number] ? price = @price_book[@number] : price = nil
+        @product_item = ProductItem.new(number: row["number"], description: row["description"], dimensions: row["dimensions"], price: price)
         @product_items << @product_item
       end
     end
