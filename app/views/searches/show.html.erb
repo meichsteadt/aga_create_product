@@ -84,7 +84,7 @@
     <div class="col s3">
       <% subcat.each do |cat|  %>
       <%= check_box_tag("sub_categories[]", cat["id"], nil, :id => "sub_categories_#{cat['id']}") %>
-      <%= label_tag("sub_categories_#{cat['id']}", cat["name"]) %>
+      <%= label_tag("sub_categories_#{cat['id']}", "#{cat['name']}, #{cat['parent_category']}") %>
       <br>
       <% end %>
     </div>
