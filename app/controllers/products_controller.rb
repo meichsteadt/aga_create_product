@@ -23,7 +23,6 @@ class ProductsController < ApplicationController
     product_item_params.each {|pi| pi['product_number'] = @product.number; @product.product_items << pi;}
     @product.images = filter_images(@product.images)
     if @product.create
-      # @product.save_images(@images)
       redirect_to edit_product_path(@product.id)
     else
       flash[:error] = "There was an error creating this product"
