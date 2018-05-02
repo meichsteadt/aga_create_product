@@ -1,6 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    Ascii85 (1.0.3)
     actioncable (5.0.6)
       actionpack (= 5.0.6)
       nio4r (>= 1.2, < 3.0)
@@ -38,6 +39,7 @@ GEM
       i18n (~> 0.7)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
+    afm (0.2.2)
     arel (7.1.4)
     aws-partitions (1.63.0)
     aws-sdk (3.0.1)
@@ -602,6 +604,7 @@ GEM
     ffi (1.9.18)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
+    hashery (2.1.2)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
     i18n (0.9.5)
@@ -643,6 +646,12 @@ GEM
       cocaine (~> 0.5.5)
       mime-types
       mimemagic (~> 0.3.0)
+    pdf-reader (2.1.0)
+      Ascii85 (~> 1.0.0)
+      afm (~> 0.2.1)
+      hashery (~> 2.0)
+      ruby-rc4
+      ttfunk
     pg (0.21.0)
     pry (0.11.3)
       coderay (~> 1.1.0)
@@ -682,6 +691,7 @@ GEM
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 4.0)
       netrc (~> 0.8)
+    ruby-rc4 (0.1.5)
     sass (3.5.3)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
@@ -708,6 +718,7 @@ GEM
     thor (0.20.0)
     thread_safe (0.3.6)
     tilt (2.0.8)
+    ttfunk (1.5.1)
     turbolinks (5.0.1)
       turbolinks-source (~> 5)
     turbolinks-source (5.1.0)
@@ -741,6 +752,7 @@ DEPENDENCIES
   listen (~> 3.0.5)
   materialize-sass
   paperclip (~> 5.2.1)
+  pdf-reader
   pg (~> 0.18)
   pry
   puma (~> 3.0)

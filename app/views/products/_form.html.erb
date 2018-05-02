@@ -1,6 +1,27 @@
 <%= link_to 'prev', edit_product_path(@product.id - 1, dir: 'prev') %>
 <%= link_to 'next', edit_product_path(@product.id + 1, dir: 'next'), class: "right" %>
 
+<div style="position: absolute; left: 10px; top: 80px;">
+  <p>Warehouse id: <%= current_user.warehouse_id%></p>
+  <p>AGA id: <%= current_user.aga_id%></p>
+  <h6>Homerica</h6>
+  <%= link_to @homerica_link, remote: true do %>
+  <div class="switch">
+    <label>
+      Off
+      <% if @homerica %>
+      <input id="homerica" type="checkbox" checked>
+      <% else %>
+      <input id="homerica" type="checkbox">
+      <% end %>
+      <span class="lever"></span>
+      On
+    </label>
+  </div>
+  <% end %>
+</div>
+
+
 <div class="row" style="padding-top: 20px;">
   <div class="col s6">
     <div class="carousel carousel-slider center" data-indicators="true">
@@ -61,7 +82,6 @@
       </div>
     </div>
   <div class="col s12">
-    <hr>
     <h5>Product Items</h5>
     <% @product_items.each do |pi| %>
       <%= hidden_field_tag "product_items[][id]", pi['id'] %>

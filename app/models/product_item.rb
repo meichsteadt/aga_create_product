@@ -9,6 +9,14 @@ class ProductItem
     @price = params[:price]
   end
 
+  def homerica_price
+    require 'csv'
+    prices = {}
+    csv = CSV.read('homerica_prices.csv', headers: true)
+    csv.each {|e| prices[e[0]] = e[1]}
+    @price = prices[@number]
+  end
+
   def create
 
   end

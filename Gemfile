@@ -35,6 +35,8 @@ gem 'materialize-sass'
 gem 'rest-client'
 gem "paperclip", "~> 5.2.1"
 gem 'aws-sdk', '~> 3'
+gem 'pdf-reader'
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 

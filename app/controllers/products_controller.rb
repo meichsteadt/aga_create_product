@@ -35,11 +35,16 @@ class ProductsController < ApplicationController
       format.js
       format.html
     end
+    @homerica_link = url_for(controller: 'homerica', action: 'index')
+    @homerica = current_user.homerica
     @prod_call = Product.product(params[:id], current_user)
     if @prod_call
       @product = @prod_call["product"]
       @product_items = @prod_call["product_items"]
       @product_sub_categories = @prod_call["sub_categories"].map{|e| e['id'] }
+    end
+    if @homerica
+      @product_items.each {|e| e["price"] = homerica_price(e["number"])}
     end
     @sub_categories = get_subcategories
     @last = Product.last_product
@@ -67,7 +72,7 @@ class ProductsController < ApplicationController
       @product = Product.new(product_params)
     end
     product_item_params.each {|pi| pi['product_number'] = @product.number; @product.product_items << pi;}
-    @product.update(params[:id])
+    @product.update(params[:id], current_user.warehouse_id)
     redirect_to edit_product_path(@product.id)
   end
 
@@ -126,5 +131,13 @@ private
     temp_arr.push(sub_categories[0..length], sub_categories[length + 1..length * 2 + 1], sub_categories[length * 2 + 2..length * 3 + 2], sub_categories[length * 3 + 3..-1])
     sub_categories = temp_arr
     sub_categories
+  end
+
+  def homerica_price(number)
+    require 'csv'
+    prices = {}
+    csv = CSV.read('homerica_prices.csv', headers: true)
+    csv.each {|e| prices[e[0]] = e[1]}
+    prices[number].to_f
   end
 end

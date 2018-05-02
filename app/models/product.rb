@@ -22,8 +22,8 @@ class Product
     end
   end
 
-  def update(id)
-    payload = create_payload
+  def update(id, user_id)
+    payload = create_payload(user_id)
     res = RestClient.put("#{ENV['URL']}/products/#{id}", payload, {key: Base64.encode64(ENV['KEY']), secret: Base64.encode64(ENV['SECRET'])})
   end
 
@@ -36,7 +36,7 @@ class Product
   end
 
   def self.product(id, user)
-    JSON.parse(RestClient.get("#{ENV['URL']}/products/#{id}?user=#{user.aga_id}").to_s)
+    JSON.parse(RestClient.get("#{ENV['URL']}/products/#{id}?user_id=#{user.aga_id}").to_s)
   rescue RestClient::NotFound
     false
   end
@@ -78,7 +78,7 @@ class Product
     end
   end
 
-  def create_payload
-    payload = {"product": JSON.parse(self.to_json)}
+  def create_payload(warehouse_id)
+    payload = {"product": JSON.parse(self.to_json), "warehouse_id": warehouse_id}
   end
 end
