@@ -11,8 +11,8 @@ class Product
     @sub_categories = params[:sub_categories]
   end
 
-  def create
-    payload = create_payload
+  def create(warehouse_id)
+    payload = create_payload(warehouse_id)
     res = RestClient.post("#{ENV['URL']}/products", payload, {key: Base64.encode64(ENV['KEY']), secret: Base64.encode64(ENV['SECRET'])})
     if res
       self.id = JSON.parse(res.to_s)["product"]["id"]
@@ -22,8 +22,8 @@ class Product
     end
   end
 
-  def update(id, user_id)
-    payload = create_payload(user_id)
+  def update(id, warehouse_id)
+    payload = create_payload(warehouse_id)
     res = RestClient.put("#{ENV['URL']}/products/#{id}", payload, {key: Base64.encode64(ENV['KEY']), secret: Base64.encode64(ENV['SECRET'])})
   end
 
