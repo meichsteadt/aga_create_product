@@ -1,5 +1,5 @@
 class ProductItem
-  attr_reader(:number, :description, :dimensions, :product_number, :price)
+  attr_reader(:number, :description, :dimensions, :product_number, :price, :id)
 
   def initialize(params)
     @number = params[:number]
@@ -7,6 +7,7 @@ class ProductItem
     @dimensions = params[:dimensions]
     @product_number = params[:product_number]
     @price = params[:price]
+    @id = params[:id]
   end
 
   def homerica_price
@@ -17,7 +18,8 @@ class ProductItem
     @price = prices[@number]
   end
 
-  def create
-
+  def create_price(amount, warehouse_id)
+    amount.nil? ? amount = 0.0 : false
+    RestClient.post("#{ENV['URL']}/product_items/#{self.id}/prices", {product_item_id: self.id, amount: amount, warehouse_id: warehouse_id}, {key: Base64.encode64(ENV['KEY']), secret: Base64.encode64(ENV['SECRET'])})
   end
 end

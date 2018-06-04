@@ -23,6 +23,7 @@ class ProductsController < ApplicationController
     product_item_params.each {|pi| pi['product_number'] = @product.number; @product.product_items << pi;}
     @product.images = filter_images(@product.images)
     if @product.create(current_user.warehouse_id)
+      create_homerica_prices(@product.id)
       redirect_to edit_product_path(@product.id)
     else
       flash[:error] = "There was an error creating this product"
@@ -139,5 +140,13 @@ private
     csv = CSV.read('homerica_prices.csv', headers: true)
     csv.each {|e| prices[e[0]] = e[1]}
     prices[number].to_f
+  end
+
+  def create_homerica_prices(product_id)
+    product_items = Product.product(product_id, current_user)["product_items"]
+    product_items.each do |pi|
+      @product_item = ProductItem.new(pi.symbolize_keys)
+      @product_item.create_price(homerica_price(@product_item.number), 2)
+    end
   end
 end
