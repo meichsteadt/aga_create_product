@@ -6,6 +6,7 @@ class CategoriesController < ApplicationController
   end
 
   def show
+    params[:parent_category] ? @parent_category = params[:parent_category] : @parent_category = @category.parent_category
     @sub_category_products = @category.get_products.sort_by {|e| e.number}
     ids = @sub_category_products.map {|m| m.id}
     @category_products = @category.get_category_products(@parent_category).map {|m| m unless ids.include?(m.id)}.compact.sort_by {|e| e.number}
