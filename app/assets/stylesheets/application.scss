@@ -29,3 +29,57 @@ nav {
     left: 0px;
   }
 }
+
+.btn {
+  margin-bottom: 25px;
+}
+
+.flex-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.product_check [type="checkbox"] + label {
+  padding: 20px !important;
+  height: auto !important;
+  margin-bottom: 10px;
+  position: relative;
+  flex: 1 1 auto;
+
+  &::before, &::after {
+    display: none;
+  }
+
+  .outline {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    transition: border .3s ease;
+    border-radius: 10px;
+  }
+}
+
+.product_check [type="checkbox"]:checked + label > .outline {
+    border: 2px solid #00bcd4;
+}
+
+.product_check [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+  visibility: hidden;
+}
+
+#add_button {
+  position: fixed;
+  top: 70%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+
+#remove_button {
+  position: fixed;
+  top: calc(70% + 66px);
+  left: 50%;
+  transform: translateX(-50%);
+}

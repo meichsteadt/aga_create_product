@@ -6,6 +6,7 @@
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   </head>
 
   <body>
@@ -14,18 +15,36 @@
         <a href="/" class="brand-logo">Homelegance Kiosk</a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
           <% if current_user %>
-            <li><a href="/products/new">New product</a></li>
-            <li><a href="/products">View products</a></li>
-            <li><a href="/searches">Search</a></li>
-            <li><%= link_to "Logout", session_path(1), :method => :delete %></li>
+            <li><a class="dropdown-trigger" data-activates='products'>Products<i class="material-icons right">arrow_drop_down</i></a></li>
+            <li><a class="dropdown-trigger" data-activates='categories'>Categories<i class="material-icons right">arrow_drop_down</i></a></li>
+            <li><%= link_to session_path(1), :method => :delete do %><i class="material-icons left">keyboard_return</i>Logout<% end %></li>
           <% end %>
         </ul>
       </div>
     </nav>
+    <ul id="products" class="dropdown-content">
+      <li><a href="/products">All products</a></li>
+      <li><a href="/products/new">New product</a></li>
+    </ul>
+    <ul id="categories" class="dropdown-content">
+      <li><a href="/categories">All categories</a></li>
+      <li><a href="/categories/new">New category</a></li>
+    </ul>
     <div class="container">
       <p><%= flash[:error] %></p>
       <p><%= flash[:notice] %></p>
       <%= yield %>
     </div>
+
+
+
+
+    <script type="text/javascript">
+      $(document).ready(function() {
+        $('.dropdown-trigger').dropdown({
+          belowOrigin: true
+        });
+      })
+    </script>
   </body>
 </html>

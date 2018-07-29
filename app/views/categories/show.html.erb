@@ -1,0 +1,61 @@
+<div class="row">
+  <h2 class="center-align"><%= @category.name %></h2>
+  <p class="right-align"><%= link_to category_path(@category.id), :method => :delete, data: {confirm: "Are you sure?"}, class: "red-text" do %>
+    Delete Category<i class="material-icons">delete</i>
+  <% end %>
+  </p>
+  <hr>
+  <div class="col m12 l5">
+    <h4>Available Products</h4>
+    <%= form_tag("/categories/#{@category.id}", method: "get") do %>
+      <label for="select">Parent Category</label>
+      <%= select_tag :parent_category, options_for_select(@parent_categories, :selected => @parent_category), :onchange => "this.form.submit()" %>
+    <% end %>
+
+    <div class="row flex-container">
+      <%= form_tag("/categories/#{@category.id}", method: "patch", id: "add_products") do %>
+        <% @category_products.each do |product| %>
+        <div class="product_check" id="<%= product.id %>">
+          <%= check_box_tag "add_products[]", product.id, false, id: "add_products_#{product.id}" %>
+          <%= label_tag "add_products_#{product.id}", id: "add_products_#{product.id}_label", class: "col s6" do %>
+          <div class="outline"></div>
+          <img src="<%= product.thumbnail(product.images[0]) %>" alt="" class="responsive-img">
+          <div class="info">
+            <p><%= product.number %></p>
+          </div>
+          <% end %>
+        </div>
+        <% end %>
+          <button type="submit" id="add_button" class="btn-floating btn-large waves-effect waves-light teal"><i class="material-icons">chevron_right</i></button>
+      <% end %>
+    </div>
+
+  </div>
+  <div class="col m12 l5 offset-l2">
+    <h4>Current Products</h4>
+
+    <div class="row flex-container">
+      <%= form_tag("/categories/#{@category.id}", method: "patch", id: "delete_products") do %>
+        <% @sub_category_products.each do |product| %>
+        <div class="product_check" id="<%= product.id %>">
+          <%= check_box_tag "delete_products[]", product.id, false, id: "delete_products_#{product.id}" %>
+          <%= label_tag "delete_products_#{product.id}", id: "delete_products_#{product.id}_label", class: "col s6" do %>
+          <div class="outline"></div>
+          <img src="<%= product.thumbnail(product.images[0]) %>" alt="" class="responsive-img">
+          <div class="info">
+            <p><%= product.number %></p>
+          </div>
+          <% end %>
+        </div>
+        <% end %>
+          <button type="submit" id="remove_button" class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">chevron_left</i></button>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+  $('select').material_select();
+});
+</script>

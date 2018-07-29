@@ -1,0 +1,25 @@
+<h2>New Category</h2>
+
+<%= form_tag("/categories", method: "post") do %>
+  <div class="row">
+    <div class="input-field col m6">
+      <%= label_tag :name%>
+      <%= text_field_tag :name %>
+    </div>
+    <div class="input-field col m6">
+      <%= select_tag :parent_category, options_for_select((@parent_categories)) %>
+      <%= label_tag :parent_category %>
+    </div>
+    <div class="input-field col m12">
+      <%= label_tag :thumbnail%>
+      <%= text_field_tag :thumbnail %>
+    </div>
+  </div>
+  <%= submit_tag "Submit", class: "waves-effect waves-light btn" %>
+<% end %>
+
+<script type="text/javascript">
+$(document).ready(function() {
+  $('select').material_select();
+});
+</script>

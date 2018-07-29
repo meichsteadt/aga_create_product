@@ -28,7 +28,8 @@
     <div class="row">
       <div class="input-field col s4">
         <%= label_tag 'images[]', 'Images' %>
-        <%= text_field_tag 'images[]', @product.images, required: true, placeholder: 'Images' %>
+        <%= text_field_tag 'images[]', @product.images, required: true, placeholder: 'Images', value: "https://s3-us-west-1.amazonaws.com/homelegance/Images_MidRes_For+Customer+Advertisement/#{@product.number.delete('*')}.jpg"%>
+        <img src="<%= "https://s3-us-west-1.amazonaws.com/homelegance-resized/Images_MidRes_For+Customer+Advertisement/#{@product.number.delete('*')}.jpg"%>" alt="" class="responsive-img">
       </div>
       <div class="input-field col s4">
         <%= label_tag 'images[]', 'Images' %>
@@ -43,7 +44,7 @@
   <div class="form-group">
     <div class="input-field col s12">
       <select id="category" name="category" required>
-        <option value="" disabled selected>Select a category</option>
+        <option value="<%= @product.category %>" selected><%= @product.category %></option>
         <option value="dining">dining</option>
         <option value="bedroom">bedroom</option>
         <option value="seating">seating</option>
@@ -56,23 +57,24 @@
   </div>
   <div class="row" id="product_items">
     <h5>Product Items</h5>
-      <%= hidden_field_tag 'product_items[]["product_number"]', @product.number %>
-    <div class="col s3">
-      <%= label_tag "product_items[]['number']", 'Number' %>
-      <%= text_field_tag "product_items[][number]", nil, required: true %>
-    </div>
-    <div class="col s3">
-      <%= label_tag "product_items[]['description']", 'Description' %>
-      <%= text_field_tag "product_items[][description]", nil, required: true %>
-    </div>
-    <div class="col s3">
-      <%= label_tag "product_items[]['dimensions']", 'Dimensions' %>
-      <%= text_field_tag "product_items[][dimensions]", nil, required: true %>
-    </div>
-    <div class="col s3">
-      <%= label_tag "product_items[]['price']", 'Price' %>
-      <%= text_field_tag "product_items[][price]", nil, required: true %>
-    </div>
+    <% @product_items.each do |pi| %>
+      <div class="col s3">
+        <%= label_tag "product_items[]['number']", 'Number' %>
+        <%= text_field_tag "product_items[][number]", pi.number, required: true %>
+      </div>
+      <div class="col s3">
+        <%= label_tag "product_items[]['description']", 'Description' %>
+        <%= text_field_tag "product_items[][description]", pi.description, required: true %>
+      </div>
+      <div class="col s3">
+        <%= label_tag "product_items[]['dimensions']", 'Dimensions' %>
+        <%= text_field_tag "product_items[][dimensions]", pi.dimensions %>
+      </div>
+      <div class="col s3">
+        <%= label_tag "product_items[]['price']", 'Price' %>
+        <%= text_field_tag "product_items[][price]", pi.price, required: true %>
+      </div>
+    <% end %>
     <%= link_to new_product_path(), remote: true, class: "btn-floating btn-large waves-effect waves-light tooltipped", 'data-position': "top", 'data-delay': "50", 'data-tooltip': "Add product item" do %>
       <i class="material-icons">add</i>
     <% end %>
@@ -82,7 +84,7 @@
     <div class="col s3">
       <% subcat.each do |cat|  %>
       <%= check_box_tag("sub_categories[]", cat["id"], nil, :id => "sub_categories_#{cat['id']}") %>
-      <%= label_tag("sub_categories_#{cat['id']}", cat["name"]) %>
+      <%= label_tag("sub_categories_#{cat['id']}", "#{cat['name']} (#{cat['parent_category']})") %>
       <br>
       <% end %>
     </div>

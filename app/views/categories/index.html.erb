@@ -1,0 +1,19 @@
+<h2>All Categories</h2>
+<%= form_tag("/categories", method: "get") do %>
+  <label for="select">Parent Category</label>
+  <%= select_tag :parent_category, options_for_select(@parent_categories, :selected => @parent_category), :onchange => "this.form.submit()" %>
+<% end %>
+<% @sub_categories.each do |sc| %>
+  <p>
+    <a href="/categories/<%= sc.id %>"><%= sc.name %></a>
+    <%= link_to category_path(sc.id), :method => :delete, data: {confirm: "Are you sure?"} do %>
+      <i class="material-icons grey-text">delete</i>
+    <% end %>
+  </p>
+<% end %>
+
+<script type="text/javascript">
+$(document).ready(function() {
+  $('select').material_select();
+});
+</script>
