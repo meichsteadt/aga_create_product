@@ -3,6 +3,10 @@ class SearchesController < ApplicationController
 
   end
 
+  def create
+    redirect_to search_path(query_params[:query])
+  end
+
   def show
     search = params[:search]
     if search
@@ -11,5 +15,11 @@ class SearchesController < ApplicationController
     else
       @products = []
     end
+  end
+
+private
+
+  def query_params
+    params.permit(:query)
   end
 end

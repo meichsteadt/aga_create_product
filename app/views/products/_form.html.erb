@@ -1,11 +1,11 @@
-<%= link_to 'prev', edit_product_path(@product.id - 1, dir: 'prev') %>
-<%= link_to 'next', edit_product_path(@product.id + 1, dir: 'next'), class: "right" %>
+<% link_to 'prev', edit_product_path(@product.id - 1, dir: 'prev') %>
+<% link_to 'next', edit_product_path(@product.id + 1, dir: 'next'), class: "right" %>
 
-<div style="position: absolute; left: 10px; top: 80px;">
+<!-- <div style="position: absolute; left: 10px; top: 80px;">
   <p>Warehouse id: <%= current_user.warehouse_id%></p>
   <p>AGA id: <%= current_user.aga_id%></p>
   <h6>Homerica</h6>
-  <%= link_to @homerica_link, remote: true do %>
+  <% link_to @homerica_link, remote: true do %>
   <div class="switch">
     <label>
       Off
@@ -19,7 +19,7 @@
     </label>
   </div>
   <% end %>
-</div>
+</div> -->
 
 
 <div class="row" style="padding-top: 20px;">
@@ -45,25 +45,15 @@
         <%= label_tag 'description', 'Description' %>
         <%= text_area_tag 'description', @product.description, required: true, placeholder: 'Description', class: 'materialize-textarea', id: 'description'%>
       </div>
-      <div class="form-group" style="position: relative;" id="images">
-        <% if @product.images.any? %>
-          <% @product.images.each do |image| %>
-            <%= label_tag 'images[]', 'Image URL' %>
-            <%= text_field_tag 'images[]', image, placeholder: 'Image URL' %>
-          <% end %>
-          <%= link_to "add images", edit_product_path(@product.id), remote: true, style: 'position:absolute; right: -100px; top: 50%; transform: translate(0, -50%)' %>
-        <% else %>
-          <%= label_tag 'image_files[]', 'Images' %>
-          <div class="file-field input-field">
-            <div class="btn">
-              <span>Browse</span>
-              <%= file_field_tag 'image_files[]', type: :file, multiple: true %>
-            </div>
-            <div class="file-path-wrapper">
-              <input class="file-path validate" type="text">
-            </div>
-          </div>
+      <div style="position: relative;" id="images">
+        <% @product.images.each_with_index do |image, index| %>
+        <div class="form-group" style="position: relative;" id="image_<%= index %>">
+          <%= label_tag 'images[]', 'Image URL' %>
+          <%= text_field_tag 'images[]', image, placeholder: 'Image URL' %>
+          <%= link_to "/products/delete_image/#{index}", remote: true do %><i class="material-icons delete-image">clear</i><% end %>
+        </div>
         <% end %>
+        <%= link_to "add images", edit_product_path(@product.id), remote: true, style: 'position:absolute; right: -100px; top: 50%; transform: translate(0, -50%)' %>
       </div>
       <div class="form-group">
         <div class="input-field col s12">
@@ -136,5 +126,10 @@
     $('#textarea1').val('<%= @product.description %>');
     $('select').material_select();
     $('.carousel.carousel-slider').carousel({fullWidth: true});
+  })
+</script>
+<script type="text/javascript">
+  $(function() {
+    $('.modal').modal();
   })
 </script>

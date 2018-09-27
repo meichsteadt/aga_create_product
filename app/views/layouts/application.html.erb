@@ -15,9 +15,14 @@
         <a href="/" class="brand-logo">Homelegance Kiosk</a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
           <% if current_user %>
+            <li><a class="modal-trigger" data-target="search"><i class="material-icons left">search</i>Search</a></li>
             <li><a class="dropdown-trigger" data-activates='products'>Products<i class="material-icons right">arrow_drop_down</i></a></li>
             <li><a class="dropdown-trigger" data-activates='categories'>Categories<i class="material-icons right">arrow_drop_down</i></a></li>
-            <li><%= link_to session_path(1), :method => :delete do %><i class="material-icons left">keyboard_return</i>Logout<% end %></li>
+            <li style="display: flex;"><a class="dropdown-trigger" data-activates='settings'>
+              <div style="height: 100%; width: 100%">
+                <i class="material-icons left">settings</i><i class="material-icons right">arrow_drop_down</i>
+              </div>
+            </a></li>
           <% end %>
         </ul>
       </div>
@@ -30,10 +35,28 @@
       <li><a href="/categories">All categories</a></li>
       <li><a href="/categories/new">New category</a></li>
     </ul>
+    <ul id="settings" class="dropdown-content">
+      <li><%= link_to session_path(1), :method => :delete do %>Logout<% end %></li>
+      <li><%= link_to 'Help', "/help" %></li>
+    </ul>
     <div class="container">
       <p><%= flash[:error] %></p>
       <p><%= flash[:notice] %></p>
       <%= yield %>
+    </div>
+
+    <div id="search" class="modal">
+      <nav class="white">
+        <div class="nav-wrapper">
+          <%= form_tag('/searches') do %>
+            <div class="input-field">
+              <input name="query" id="search" type="search" required>
+              <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+              <i class="material-icons">close</i>
+            </div>
+          <% end %>
+        </div>
+      </nav>
     </div>
 
 
@@ -44,6 +67,13 @@
         $('.dropdown-trigger').dropdown({
           belowOrigin: true
         });
+      })
+
+      $(document).on('turbolinks:load', function() {
+        $('.modal').modal();
+        $('.modal-trigger').on('click', function() {
+          $('.modal').modal('open');
+        })
       })
     </script>
   </body>

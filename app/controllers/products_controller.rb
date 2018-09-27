@@ -5,6 +5,13 @@ class ProductsController < ApplicationController
     @pages = (Product.products(@page_number)["pages"]/6.0).ceil
     @next = next_page(@page_number, @pages)
     @prev = prev_page(@page_number, @pages)
+    @page_range = [1]
+    @page_range << "..." if @page_number > 5
+    6.times do |t|
+      @page_range << (@page_number - 3 + t) if (@page_number - 3 + t > 1 && @page_number - 3 + t < @pages)
+    end
+    @page_range << "..." if (@page_number - 3 < @pages && (@page_number < @pages - 3))
+    @page_range << @pages
   end
 
   def new
@@ -81,6 +88,13 @@ class ProductsController < ApplicationController
     @product = Product.new({id: params[:id]})
     @product.destroy
     redirect_to edit_product_path(params[:to_id])
+  end
+
+  def delete_image
+    @id = params[:id]
+    respond_to do |format|
+      format.js
+    end
   end
 private
   def product_params

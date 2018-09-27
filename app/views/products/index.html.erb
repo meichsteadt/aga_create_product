@@ -1,22 +1,48 @@
-<%= link_to 'prev', products_path(page_number: @prev) %>
-<%= link_to 'next', products_path(page_number: @next), class: "right" %>
-<div class="row">
-  <% @products.first(3).each do |product| %>
+<div class="row products">
+  <% @products.each do |product| %>
     <%= link_to edit_product_path(product["id"]) do %>
-      <div class="col s4">
-        <p><%= product["name"] %></p>
-        <img src="<%= product["thumbnail"] %>" alt="" class="responsive-img">
+      <div class="product col m4 s12">
+        <div class="image-wrapper">
+          <img src="<%= product["thumbnail"] %>" alt="" class="product-image responsive-img">
+          <div class="info">
+            <p class="truncate"><%= product["number"] %></p>
+          </div>
+        </div>
       </div>
     <% end %>
   <% end %>
 </div>
-<div class="row">
-  <% @products.last(3).each do |product| %>
-    <%= link_to edit_product_path(product["id"]) do %>
-      <div class="col s4">
-        <p><%= product["name"] %></p>
-        <img src="<%= product["thumbnail"] %>" alt="" class="responsive-img">
-      </div>
+<ul class="pagination">
+  <% if @page_number === 1 %>
+    <li class="disabled"><a><i class="material-icons">chevron_left</i></a></li>
+  <% else %>
+    <li class="waves-effect">
+      <%= link_to products_path(page_number: @prev) do %>
+        <i class="material-icons">chevron_left</i>
+      <% end %>
+    </li>
+  <% end %>
+  <% @page_range.each do |t| %>
+    <% if t === @page_number %>
+      <li class="active"><%= link_to t, products_path(page_number: t) %></li>
+    <% elsif t == "..."%>
+      <li class="disabled"><a>...</a></li>
+    <% else %>
+      <li><%= link_to t, products_path(page_number: t) %></li>
     <% end %>
   <% end %>
-</div>
+  <% if @page_number === @pages %>
+    <li class="disabled"><a><i class="material-icons">chevron_right</i></a></li>
+  <% else %>
+    <li class="waves-effect">
+      <%= link_to products_path(page_number: @next) do %>
+        <i class="material-icons">chevron_right</i>
+      <% end %>
+    </li>
+  <% end %>
+</ul>
+<script type="text/javascript">
+  $(function() {
+    $('.modal').modal();
+  })
+</script>
