@@ -1,0 +1,18 @@
+<table>
+    <tr>
+      <th>Item#</th>
+      <th>Old Price</th>
+      <th>New Price</th>
+    </tr>
+    <%= form_tag('/update_prices/1', :method => :put) do %>
+    <%= hidden_field_tag :authenticity_token, form_authenticity_token -%>
+      <% @product_items.each do |pi| %>
+      <tr>
+        <td><%= pi["number"] %></td>
+        <td><%= pi["price"] %></td>
+        <td><%= text_field_tag "new_price[#{pi['id']}]", @hash[pi['number']] %></td>
+      </tr>
+      <% end %>
+      <%= submit_tag %>
+    <% end %>
+  </table>

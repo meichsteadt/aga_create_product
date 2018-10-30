@@ -31,9 +31,9 @@ gem 'jbuilder', '~> 2.5'
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
-gem 'materialize-sass'
+gem 'materialize-sass', '~> 0.100.2'
 gem 'rest-client'
-gem "paperclip", "~> 5.2.1"
+gem "paperclip", "~> 6.0.0"
 gem 'aws-sdk', '~> 3'
 gem 'pdf-reader'
 

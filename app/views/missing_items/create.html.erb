@@ -1,0 +1,19 @@
+<h2>Missing Items</h2>
+
+<div class="row">
+  <ul class="col m4">
+    <% @mi[@first_third].each do |item| %>
+    <li><%= item %></li>
+    <% end %>
+  </ul>
+  <ul class="col m4">
+    <% @mi[@second_third].each do |item| %>
+    <li><%= item %></li>
+    <% end %>
+  </ul>
+  <ul class="col m4">
+    <% @mi[@last_third].first((@mi.length/3).ceil).each do |item| %>
+    <li><%= item %></li>
+    <% end %>
+  </ul>  
+</div>

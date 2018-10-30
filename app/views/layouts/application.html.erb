@@ -6,7 +6,7 @@
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Merriweather|Josefin+Slab" rel="stylesheet">
   </head>
 
   <body>
@@ -38,6 +38,9 @@
     <ul id="settings" class="dropdown-content">
       <li><%= link_to session_path(1), :method => :delete do %>Logout<% end %></li>
       <li><%= link_to 'Help', "/help" %></li>
+      <li><a href="/update_prices">Bulk pricing update</a></li>
+      <li><a href="/missing_items">Missing Items</a></li>
+      <li><%= link_to "Help", asset_path('/Homelegance Kiosk Training PDF.pdf'), target: "_blank" %></li>
     </ul>
     <div class="container">
       <p><%= flash[:error] %></p>

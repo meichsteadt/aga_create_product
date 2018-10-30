@@ -7,5 +7,7 @@ Rails.application.routes.draw do
   resources :sessions
   put '/products', to: 'products#update'
   get '/searches/:search', to: 'searches#show'
-  resources :searches, :homerica, :categories
+  resources :price_csvs, :path => 'update_prices', controller: "update_prices"
+  get "/help", to: 'help#index'
+  resources :searches, :homerica, :categories, :missing_items
 end
