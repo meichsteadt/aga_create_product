@@ -13,7 +13,7 @@ class UpdatePricesController < ApplicationController
     @hash = {}
     csv.each do |row|
       if row[" New Price "]
-        @hash[row["Item#"]] = row[" New Price "].remove(" ", "$")
+        @hash[row["Item#"]] = row[" New Price "].remove(" ", "$").to_f.ceil
       end
     end
     @product_items = PriceCsv.get_prices_to_update(@hash)
