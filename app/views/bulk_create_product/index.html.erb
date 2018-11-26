@@ -1,0 +1,5 @@
+<h1>Bulk Upload Products</h1>
+<%= form_for(@price, url: "/bulk_create_product") do |f| %>
+ <%= f.file_field :file %>
+ <button class="btn right" type="submit">Upload</button>
+<% end %>

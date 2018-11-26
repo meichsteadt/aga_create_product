@@ -9,5 +9,5 @@ Rails.application.routes.draw do
   get '/searches/:search', to: 'searches#show'
   resources :price_csvs, :path => 'update_prices', controller: "update_prices"
   get "/help", to: 'help#index'
-  resources :searches, :homerica, :categories, :missing_items, :price_csv
+  resources :searches, :homerica, :categories, :missing_items, :price_csv, :bulk_create_product, :images
 end

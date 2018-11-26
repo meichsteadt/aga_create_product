@@ -1,0 +1,7 @@
+<%= form_tag('/images', multipart: true) do %>
+  <div class="form-group">
+    <%= label_tag 'image_files[]', 'Images' %>
+    <%= file_field_tag 'image_files[]', type: :file, multiple: true, required: true %>
+
+  <%= submit_tag "Upload Images", class: 'btn right' %>
+<% end %>
