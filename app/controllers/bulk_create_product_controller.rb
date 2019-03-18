@@ -15,13 +15,15 @@ class BulkCreateProductController < ApplicationController
       @sub_categories[e["parent_category"]][e["name"]] = e["id"]
     end
     csv.each do |row|
+      row["sub_categories"] ? sub_categories = row["sub_categories"].split(", ").map {|e| @sub_categories[row["category"]][e]} : sub_categories = nil
+      row["images"] ? images = row["images"].split(", ") : images = nil 
       @product = Product.new(
         number: row["number"],
         name: row["name"],
         description: row["description"],
         category: row["category"],
-        images: row["images"].split(", "),
-        sub_categories: row["sub_categories"].split(", ").map {|e| @sub_categories[row["category"]][e]}
+        images: images,
+        sub_categories: sub_categories
       )
       i = 1
       while row["product_item_#{i}_number"]

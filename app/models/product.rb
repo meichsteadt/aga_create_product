@@ -1,5 +1,5 @@
 class Product
-  attr_reader(:id, :name, :images, :description, :number, :category, :product_items, :sub_categories)
+  attr_accessor(:id, :name, :images, :description, :number, :category, :product_items, :sub_categories)
   def initialize(params)
     @name = params[:name]
     @images = params[:images]
@@ -7,13 +7,19 @@ class Product
     @number = params[:number]
     @category = params[:category]
     @id = params[:id]
-    @product_items = []
     @sub_categories = params[:sub_categories]
+    @product_items = []
   end
 
   def create(warehouse_id)
     payload = create_payload(warehouse_id)
-    res = RestClient.post("#{ENV['URL']}/products", payload, {key: Base64.encode64(ENV['KEY']), secret: Base64.encode64(ENV['SECRET'])})
+    begin
+      res = RestClient.post("#{ENV['URL']}/products", payload, {key: Base64.encode64(ENV['KEY']), secret: Base64.encode64(ENV['SECRET'])})
+    rescue
+      RestClient.put("#{ENV['URL']}/missing_items", payload, {key: Base64.encode64(ENV['KEY']), secret: Base64.encode64(ENV['SECRET'])})
+      rescue
+        return nil
+    end
     if res
       self.id = JSON.parse(res.to_s)["product"]["id"]
       true

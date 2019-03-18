@@ -7,9 +7,11 @@ class MissingItemsController < ApplicationController
     require 'csv'
     @file = params[:missing_item][:file].tempfile
     csv = CSV.read(@file, headers: true)
+    ds = CSV.read("ds.csv", headers: true)
+    ds_book = ds.map {|row| [row["Model"], {status: row["Status"], add_desc: row["Additional_Description"]}]}.to_h
     @arr = []
     csv.each do |row|
-      @arr << row["Item#"] if row["Item#"] && !row["Item#"].match(/([*]\d)/)
+      @arr << row["Item#"] if row["Item#"] && !row["Item#"].match(/([*]\d)/) && (ds_book[row["Item#"]] && !(ds_book[row["Item#"]][:status] == "DS" || ds_book[row["Item#"]][:add_desc] == "TBDS"))
     end
     @mi = missing_items(@arr)
     @third = (@mi.length/3).ceil
@@ -20,7 +22,7 @@ class MissingItemsController < ApplicationController
 
 private
   def missing_items(arr)
-    MissingItem.new().missing_items(arr)
+    MissingItem.new.missing_items(arr)
   end
 
   def mi_params
